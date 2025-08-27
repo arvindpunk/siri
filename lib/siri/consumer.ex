@@ -8,33 +8,31 @@ defmodule Siri.Consumer do
   require Logger
 
   # FIXME: there has to be a better way to do this
-  @bot "<@1409583765151551498> "
+  @bot_id 1409_583_765_151_551_498
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    case msg.content do
-      @bot <> user_prompt ->
-        {:ok, response} =
-          ExLLM.chat(
-            "gemini/gemini-2.0-flash",
-            [
-              %{
-                role: "system",
-                content: Siri.Prompt.system_prompt()
-              },
-              %{
-                role: "user",
-                content: user_prompt
-              }
-            ]
-          )
+    if Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) do
+      user_prompt = msg.content
 
-        {:ok, _message} =
-          Message.create(msg.channel_id,
-            content: response.content
-          )
+      {:ok, response} =
+        ExLLM.chat(
+          "gemini/gemini-2.0-flash",
+          [
+            %{
+              role: "system",
+              content: Siri.Prompt.system_prompt()
+            },
+            %{
+              role: "user",
+              content: user_prompt
+            }
+          ]
+        )
 
-      _ ->
-        :ignore
+      Message.create(msg.channel_id,
+        content: response.content
+      )
+    else
     end
   end
 
