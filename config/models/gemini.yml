@@ -1,0 +1,719 @@
+provider: gemini
+models:
+  gemini-2.5-pro-exp-03-25:
+    context_window: 1048576
+    max_output_tokens: 65535
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_input
+      - structured_output
+      - system_messages
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-pro:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 1.25
+      output: 10.0
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_input
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-flash:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 0.3
+      output: 2.5
+      reasoning: 2.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - pdf_input
+      - parallel_function_calling
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+      - /v1/batch
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-flash-preview-tts:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 0.15
+      output: 0.6
+      reasoning: 3.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+    supported_modalities:
+      - text
+    supported_output_modalities:
+      - audio
+  gemini-2.5-flash-preview-05-20:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 0.3
+      output: 2.5
+      reasoning: 2.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-flash-preview-04-17:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 0.15
+      output: 0.6
+      reasoning: 3.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-flash-lite-preview-06-17:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 0.1
+      output: 0.4
+      reasoning: 0.4
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - reasoning
+      - web_search
+      - pdf_input
+      - parallel_function_calling
+      - tool_choice
+    supported_endpoints:
+      - /v1/chat/completions
+      - /v1/completions
+      - /v1/batch
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.0-pro-exp-02-05:
+    context_window: 2097152
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_input
+      - structured_output
+      - system_messages
+      - web_search
+      - pdf_input
+      - tool_choice
+  gemini-2.0-flash-preview-image-generation:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.1
+      output: 0.4
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_input
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini-2.0-flash:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.1
+      output: 0.4
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_input
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini-2.0-flash-lite:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.0-flash-001:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.1
+      output: 0.4
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini-2.5-pro-preview-tts:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 1.25
+      output: 10.0
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+    supported_output_modalities:
+      - audio
+  gemini-2.5-pro-preview-06-05:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 1.25
+      output: 10.0
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-pro-preview-05-06:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 1.25
+      output: 10.0
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.5-pro-preview-03-25:
+    context_window: 1048576
+    max_output_tokens: 65535
+    pricing:
+      input: 1.25
+      output: 10.0
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - pdf_input
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.0-flash-exp:
+    context_window: 1048576
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini-2.0-flash-lite-preview-02-05:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+  gemini-2.0-flash-thinking-exp:
+    context_window: 1048576
+    max_output_tokens: 65536
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini-2.0-flash-thinking-exp-01-21:
+    context_window: 1048576
+    max_output_tokens: 65536
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - audio_output
+      - structured_output
+      - system_messages
+      - web_search
+      - tool_choice
+    supported_modalities:
+      - text
+      - image
+      - audio
+      - video
+    supported_output_modalities:
+      - text
+      - image
+  gemini/gemma-3-27b-it:
+    context_window: 131072
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini/learnlm-1.5-pro-experimental:
+    context_window: 32767
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-002:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+    deprecation_date: "2025-09-24"
+  gemini-1.5-flash-001:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+    deprecation_date: "2025-05-24"
+  gemini-1.5-flash:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-latest:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 0.075
+      output: 0.3
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-8b:
+    context_window: 1048576
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-8b-exp-0924:
+    context_window: 1048576
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-exp-1114:
+    context_window: 1048576
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-exp-1206:
+    context_window: 2097152
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-exp-0827:
+    context_window: 1048576
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-flash-8b-exp-0827:
+    context_window: 1000000
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-pro:
+    context_window: 32760
+    max_output_tokens: 8192
+    pricing:
+      input: 0.35
+      output: 1.05
+    capabilities:
+      - streaming
+      - function_calling
+      - tool_choice
+  gemini-1.5-pro:
+    context_window: 2097152
+    max_output_tokens: 8192
+    pricing:
+      input: 3.5
+      output: 10.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-pro-002:
+    context_window: 2097152
+    max_output_tokens: 8192
+    pricing:
+      input: 3.5
+      output: 10.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+    deprecation_date: "2025-09-24"
+  gemini-1.5-pro-001:
+    context_window: 2097152
+    max_output_tokens: 8192
+    pricing:
+      input: 3.5
+      output: 10.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - prompt_caching
+      - structured_output
+      - system_messages
+      - tool_choice
+    deprecation_date: "2025-05-24"
+  gemini-1.5-pro-exp-0801:
+    context_window: 2097152
+    max_output_tokens: 8192
+    pricing:
+      input: 3.5
+      output: 10.5
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-pro-exp-0827:
+    context_window: 2097152
+    max_output_tokens: 8192
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-1.5-pro-latest:
+    context_window: 1048576
+    max_output_tokens: 8192
+    pricing:
+      input: 3.5
+      output: 1.05
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - structured_output
+      - system_messages
+      - tool_choice
+  gemini-pro-vision:
+    context_window: 30720
+    max_output_tokens: 2048
+    pricing:
+      input: 0.35
+      output: 1.05
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - tool_choice
+  gemini-gemma-2-27b-it:
+    context_window: 8192
+    max_output_tokens: 8192
+    pricing:
+      input: 0.35
+      output: 1.05
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - tool_choice
+  gemini-gemma-2-9b-it:
+    context_window: 8192
+    max_output_tokens: 8192
+    pricing:
+      input: 0.35
+      output: 1.05
+    capabilities:
+      - streaming
+      - function_calling
+      - vision
+      - tool_choice
+default_model: gemini-2.5-pro-exp-03-25
