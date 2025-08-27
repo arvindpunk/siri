@@ -7,13 +7,10 @@ defmodule Siri.Consumer do
 
   require Logger
 
-  # FIXME: there has to be a better way to do this
   @bot_id 1409_583_765_151_551_498
 
-  # @spec handle_event({:MESSAGE_CREATE, Nostrum.Struct.Message.t(), any()})
+  @spec handle_event({atom(), Nostrum.Struct.Message.t(), any()}) :: any()
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    # Logger.debug(msg)
-
     if Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) do
       referenced_message = Map.get(msg.referenced_message, :content)
       currrent_message = msg.content
