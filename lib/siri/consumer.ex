@@ -10,9 +10,23 @@ defmodule Siri.Consumer do
   # FIXME: there has to be a better way to do this
   @bot_id 1409_583_765_151_551_498
 
+  # @spec handle_event({:MESSAGE_CREATE, Nostrum.Struct.Message.t(), any()})
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
+    # Logger.debug(msg)
+
     if Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) do
-      user_prompt = msg.content
+      referenced_message = Map.get(msg.referenced_message, :content)
+      currrent_message = msg.content
+
+      messages =
+        [referenced_message, currrent_message]
+        |> Enum.reject(&is_nil(&1))
+        |> Enum.map(fn message ->
+          %{
+            role: "user",
+            content: message
+          }
+        end)
 
       {:ok, response} =
         ExLLM.chat(
@@ -21,11 +35,8 @@ defmodule Siri.Consumer do
             %{
               role: "system",
               content: Siri.Prompt.system_prompt()
-            },
-            %{
-              role: "user",
-              content: user_prompt
             }
+            | messages
           ]
         )
 
