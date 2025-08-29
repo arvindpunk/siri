@@ -11,12 +11,8 @@ defmodule Siri.Consumer do
 
   @spec handle_event({atom(), Nostrum.Struct.Message.t(), any()}) :: any()
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    should_respond_without_mentioned =
-      :rand.uniform() < 0.15 and msg.author.id != @bot_id and
-        String.length(msg.content) > 100
-
-    if should_respond_without_mentioned or
-         Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) do
+    if Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) or
+         String.contains?(msg.content, "siri") do
       referenced_message = Map.get(msg.referenced_message || %{}, :content)
       currrent_message = msg.content
 
