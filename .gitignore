@@ -24,3 +24,4 @@ siri-*.tar
 
 .env
 .elixir_ls
+.direnv
