@@ -4,7 +4,7 @@ defmodule Siri.Model do
 
   @llm_doc """
   A response or reaction to the given Discord message.
-  If reply, populat type as reply and populate content with the response to the message.
+  If reply, populate type as reply and populate content with the response to the message.
   If reaction, populate type as react and emoji as one of the given emoji.
   """
 
