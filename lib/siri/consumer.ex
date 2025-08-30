@@ -48,6 +48,13 @@ defmodule Siri.Consumer do
         :react ->
           Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
 
+        :react_and_reply ->
+          Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
+
+          Message.create(msg.channel_id,
+            content: response.content
+          )
+
         _ ->
           :ignore
       end

@@ -10,7 +10,7 @@ defmodule Siri.Model do
 
   @primary_key false
   embedded_schema do
-    field(:type, Ecto.Enum, values: [:react, :reply])
+    field(:type, Ecto.Enum, values: [:react, :reply, :react_and_reply])
     field(:content, :string)
 
     field(:emoji, Ecto.Enum, values: Siri.Emoji.list())
