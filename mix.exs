@@ -22,9 +22,12 @@ defmodule Siri.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:nostrum, "~> 0.10"}
-      {:nostrum, github: "Kraigie/nostrum"},
-      {:ex_llm, "~> 0.8.1"}
+      {:ecto, "~> 3.10"},
+      {:ecto_sql, "~> 3.13"},
+      {:postgrex, "~> 0.21"},
+      {:ex_llm, github: "arvindpunk/ex_llm"},
+      {:instructor, "~> 0.1"},
+      {:nostrum, github: "Kraigie/nostrum"}
     ]
   end
 end

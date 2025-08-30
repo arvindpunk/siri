@@ -11,8 +11,12 @@ defmodule Siri.Consumer do
 
   @spec handle_event({atom(), Nostrum.Struct.Message.t(), any()}) :: any()
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
-    if Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) or
-         String.contains?(msg.content, "siri") do
+    should_respond =
+      msg.author.id != @bot_id and
+        (Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) or
+           msg.content |> String.downcase() |> String.contains?("siri"))
+
+    if should_respond do
       referenced_message = Map.get(msg.referenced_message || %{}, :content)
       currrent_message = msg.content
 
@@ -28,20 +32,27 @@ defmodule Siri.Consumer do
 
       {:ok, response} =
         ExLLM.chat(
-          "gemini/gemini-2.0-flash",
-          [
-            %{
-              role: "system",
-              content: Siri.Prompt.system_prompt()
-            }
-            | messages
-          ]
+          :gemini,
+          [%{role: "system", content: Siri.Prompt.system_prompt()} | messages],
+          response_model: Siri.Model,
+          model: "gemini-2.0-flash",
+          max_retries: 2
         )
 
-      Message.create(msg.channel_id,
-        # content: "[debug stuff #{length(messages)}] " <> response.content
-        content: response.content
-      )
+      case Map.get(response, :type) do
+        :reply ->
+          Message.create(msg.channel_id,
+            content: response.content
+          )
+
+        :react ->
+          Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
+
+        _ ->
+          :ignore
+      end
+
+      :ignore
     else
     end
   end

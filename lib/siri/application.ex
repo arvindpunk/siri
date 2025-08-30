@@ -16,11 +16,11 @@ defmodule Siri.Application do
     }
 
     children = [
+      # Siri.Repo,
       {Nostrum.Bot, bot_options}
     ]
 
     opts = [strategy: :one_for_one, name: Siri.Supervisor]
-    Logger.info(children)
     Supervisor.start_link(children, opts)
   end
 end
