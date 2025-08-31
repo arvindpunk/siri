@@ -3,7 +3,7 @@ defmodule Siri.Consumer do
 
   @behaviour Nostrum.Consumer
 
-  alias Nostrum.Api.Message
+  alias Nostrum.Api.{Message, Channel}
 
   require Logger
 
@@ -30,12 +30,16 @@ defmodule Siri.Consumer do
           }
         end)
 
+      Task.async(fn ->
+        Channel.start_typing(msg.channel_id)
+      end)
+
       {:ok, response} =
         ExLLM.chat(
           :gemini,
           [%{role: "system", content: Siri.Prompt.system_prompt()} | messages],
           response_model: Siri.Model,
-          model: "gemini-2.0-flash",
+          model: "gemini-2.5-flash",
           max_retries: 2
         )
 
@@ -49,7 +53,9 @@ defmodule Siri.Consumer do
           Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
 
         :react_and_reply ->
-          Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
+          Task.async(fn ->
+            Message.react(msg.channel_id, msg.id, Siri.Emoji.get(response.emoji))
+          end)
 
           Message.create(msg.channel_id,
             content: response.content
