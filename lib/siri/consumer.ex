@@ -7,13 +7,11 @@ defmodule Siri.Consumer do
 
   require Logger
 
-  @bot_id 1409_583_765_151_551_498
-
   @spec handle_event({atom(), Nostrum.Struct.Message.t(), any()}) :: any()
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     should_respond =
-      msg.author.id != @bot_id and
-        (Enum.any?(msg.mentions, fn user -> user.id == @bot_id end) or
+      msg.author.id != Application.get_env(:siri, :bot_id) and
+        (Enum.any?(msg.mentions, fn user -> user.id == Application.get_env(:siri, :bot_id) end) or
            msg.content |> String.downcase() |> String.contains?("siri"))
 
     if should_respond do
