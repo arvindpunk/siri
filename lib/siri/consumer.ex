@@ -16,7 +16,7 @@ defmodule Siri.Consumer do
          end) or
            current_message.content |> String.downcase() |> String.contains?("siri"))
 
-    Logger.debug(should_respond: should_respond, msg: current_message)
+    # Logger.debug(should_respond: should_respond, msg: current_message)
 
     if should_respond do
       Task.async(fn ->
@@ -26,7 +26,7 @@ defmodule Siri.Consumer do
       with {:ok, previous_messages} <-
              Channel.messages(
                current_message.channel_id,
-               10,
+               4,
                {:before, current_message.id}
              ),
            {:ok, response} <-
@@ -45,8 +45,6 @@ defmodule Siri.Consumer do
                    do: previous_messages ++ [referenced_message],
                    else: previous_messages
 
-               Logger.info(previous_messages |> Enum.at(0))
-
                messages =
                  (previous_messages ++ [current_message])
                  |> Enum.map(fn message ->
@@ -63,9 +61,31 @@ defmodule Siri.Consumer do
                ExLLM.chat(
                  :gemini,
                  [%{role: "system", content: Siri.Prompt.system_prompt()} | messages],
-                 response_model: Siri.Model,
-                 model: "gemini-2.5-flash",
-                 max_retries: 2
+                 #  response_model: Siri.Model,
+                 model: "gemini-2.5-pro",
+                 max_retries: 2,
+                 safety_settings: [
+                   %{
+                     category: "HARM_CATEGORY_HARASSMENT",
+                     threshold: "BLOCK_NONE"
+                   },
+                   %{
+                     category: "HARM_CATEGORY_HATE_SPEECH",
+                     threshold: "BLOCK_NONE"
+                   },
+                   %{
+                     category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                     threshold: "BLOCK_NONE"
+                   },
+                   %{
+                     category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                     threshold: "BLOCK_NONE"
+                   },
+                   %{
+                     category: "HARM_CATEGORY_CIVIC_INTEGRITY",
+                     threshold: "BLOCK_NONE"
+                   }
+                 ]
                )
              ) do
         case Map.get(response, :type) do
@@ -96,10 +116,13 @@ defmodule Siri.Consumer do
 
           _ ->
             Message.create(current_message.channel_id,
-              content:
-                "this is a placeholder message where the LLM didn't want to reply to you as the message wasn't worth replying you twat. (here for debugging purposes)"
+              content: response.content
+              # "this is a placeholder message where the LLM didn't want to reply to you as the message wasn't worth replying you twat. (here for debugging purposes)"
             )
         end
+      else
+        {:error, msg} ->
+          Message.create(current_message.channel_id, content: "error: " <> msg)
       end
     end
   end
