@@ -25,6 +25,7 @@ defmodule Siri.MixProject do
       {:ecto, "~> 3.10"},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, "~> 0.21"},
+      {:req, "~> 0.5.0"},
       {:ex_llm, github: "arvindpunk/ex_llm", branch: "fix/structured-response"},
       {:instructor, "~> 0.1"},
       {:nostrum, github: "Kraigie/nostrum"}

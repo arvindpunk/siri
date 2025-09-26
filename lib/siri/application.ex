@@ -17,6 +17,7 @@ defmodule Siri.Application do
 
     children = [
       # Siri.Repo,
+      {DynamicSupervisor, name: Siri.ChannelSupervisor, strategy: :one_for_one},
       {Nostrum.Bot, bot_options}
     ]
 
