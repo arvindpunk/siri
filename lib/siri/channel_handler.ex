@@ -62,7 +62,7 @@ defmodule Siri.ChannelHandler do
               %{
                 role: "user",
                 content:
-                  "#{(message.member && siri.member.nick) || message.author.username} (<@#{message.author.id}>): #{message.content}"
+                  "#{(message.member && message.member.nick) || message.author.username} (<@#{message.author.id}>): #{message.content}"
               }
             end
           end)
