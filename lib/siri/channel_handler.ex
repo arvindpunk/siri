@@ -62,7 +62,7 @@ defmodule Siri.ChannelHandler do
               %{
                 role: "user",
                 content:
-                  "#{message.member.nick || message.author.username} (<@#{message.author.id}>): #{message.content}"
+                  "#{(message.member && siri.member.nick) || message.author.username} (<@#{message.author.id}>): #{message.content}"
               }
             end
           end)
@@ -136,7 +136,7 @@ defmodule Siri.ChannelHandler do
         | messages
       ],
       response_model: Siri.Model,
-      model: "gemini-3.7-flash",
+      model: "gemini-3.5-flash-lite",
       max_retries: 0,
       safety_settings: [
         %{
