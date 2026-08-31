@@ -63,7 +63,7 @@ defmodule Siri.ChannelHandler do
               %{
                 role: "user",
                 content:
-                  "#{(message.member && message.member.nick) || message.author.username} (<@#{message.author.id}>): #{message_content(message)}"
+                  "#{Enum.find_value(List.wrap(message.embeds), fn embed -> embed.author && embed.author.name end) || (message.member && message.member.nick) || message.author.username} (<@#{message.author.id}>): #{message_content(message)}"
               }
             end
           end)
