@@ -29,13 +29,14 @@ defmodule Siri.ChannelHandler do
   @impl true
   def handle_cast({:message, current_message}, state) do
     state = %{state | messages: [current_message | state.messages]}
+    current_content = message_content(current_message)
 
     should_respond =
       current_message.author.id != Application.get_env(:siri, :bot_id) and
         (Enum.any?(current_message.mentions, fn user ->
            user.id == Application.get_env(:siri, :bot_id)
          end) or
-           current_message.content
+           current_content
            |> String.downcase()
            |> String.contains?(
              Application.get_env(:siri, :bot_name)
@@ -56,13 +57,13 @@ defmodule Siri.ChannelHandler do
             if message.author.id == Application.get_env(:siri, :bot_id) do
               %{
                 role: "assistant",
-                content: message.content
+                content: message_content(message)
               }
             else
               %{
                 role: "user",
                 content:
-                  "#{(message.member && message.member.nick) || message.author.username} (<@#{message.author.id}>): #{message.content}"
+                  "#{(message.member && message.member.nick) || message.author.username} (<@#{message.author.id}>): #{message_content(message)}"
               }
             end
           end)
@@ -126,6 +127,25 @@ defmodule Siri.ChannelHandler do
   @impl true
   def handle_info(_msg, state) do
     {:noreply, state}
+  end
+
+  @spec message_content(Nostrum.Struct.Message.t()) :: String.t()
+  def message_content(message) do
+    embed_content =
+      message.embeds
+      |> List.wrap()
+      |> Enum.flat_map(fn embed ->
+        fields =
+          embed.fields
+          |> List.wrap()
+          |> Enum.map(fn field -> "#{field.name}: #{field.value}" end)
+
+        [embed.title, embed.description | fields]
+      end)
+
+    [message.content | embed_content]
+    |> Enum.reject(&(&1 in [nil, ""]))
+    |> Enum.join("\n")
   end
 
   def llm_response(messages) do
