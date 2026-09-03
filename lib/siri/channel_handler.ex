@@ -156,7 +156,7 @@ defmodule Siri.ChannelHandler do
         | messages
       ],
       response_model: Siri.Model,
-      model: "gemini-3.5-flash-lite",
+      model: "gemini-2.5-flash",
       max_retries: 0,
       safety_settings: [
         %{
