@@ -102,8 +102,8 @@ defmodule Siri.ChannelHandler do
           #   )
           # end
         else
-          {:error, msg} ->
-            Logger.error("error: #{msg}")
+          {:error, %{reason: reason}} ->
+            Logger.error("#{reason}")
             # Message.create(current_message.channel_id, content: "error: #{msg}")
         end
       end)
