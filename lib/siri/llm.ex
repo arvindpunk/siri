@@ -1,4 +1,22 @@
-defmodule Siri.Prompt do
+defmodule Siri.LLM do
+  alias ReqLLM
+  import ReqLLM.Context
+
+  @model "google:gemini-2.5-flash"
+  @response_schema [
+    reply: [type: :string, required: true, doc: "reply to the last users message"],
+    react: [
+      type: {:in, Siri.Emoji.list()},
+      required: false,
+      doc: "only if relevant, what reaction to use on the users last message"
+    ],
+    giphy: [
+      type: :string,
+      required: false,
+      doc: "if a gif response is relevant, the required gif search term"
+    ]
+  ]
+
   def system_prompt() do
     """
     You are a helpful chat bot named #{Application.get_env(:siri, :bot_name)}, in a Discord server focused on open source technology. Your goal is to participate naturally in conversations like a regular community member would. Only use
@@ -46,5 +64,13 @@ defmodule Siri.Prompt do
 
     Be authentic, casual, and genuinely helpful when needed, but remember you're just another person in the chat, not a formal assistant.
     """
+  end
+
+  def chat(messages) do
+    ReqLLM.generate_object(
+      @model,
+      normalize!(messages, system_prompt: system_prompt()),
+      @response_schema
+    )
   end
 end
