@@ -67,40 +67,26 @@ defmodule Siri.ChannelHandler do
           end)
 
         with {:ok, %{error: nil, object: response}} <- Siri.LLM.chat(messages) do
-          [
-            {"react",
-             fn value ->
-               Message.react(
-                 current_message.channel_id,
-                 current_message.id,
-                 Siri.Emoji.get(value)
-               )
-             end},
-            {"reply",
-             fn value ->
-               Message.create(current_message.channel_id, content: value)
-             end},
-            {"giphy",
-             fn value ->
-               Message.create(
-                 current_message.channel_id,
-                 content: Siri.Substitutions.Giphy.apply_subsitition(value)
-               )
-             end}
-          ]
-          |> Enum.each(fn {key, action} ->
-            case Map.get(response, key) do
-              nil -> :ok
-              value -> action.(value)
+          Enum.each(response, fn {action, value} ->
+            case action do
+              "giphy" ->
+                Message.create(
+                  current_message.channel_id,
+                  content: Siri.Substitutions.Giphy.apply_subsitition(value)
+                )
+
+              "react" ->
+                Message.react(
+                  current_message.channel_id,
+                  current_message.id,
+                  Siri.Emoji.get(value)
+                )
+
+              # all other cases where it should reply
+              _ ->
+                Message.create(current_message.channel_id, content: value)
             end
           end)
-
-          # _ ->
-          #   Message.create(current_message.channel_id,
-          #     content:
-          #       "this is a placeholder message where the LLM didn't want to reply to you as the message wasn't worth replying, you twat. (here for debugging purposes)"
-          #   )
-          # end
         else
           {:error, %{reason: reason}} ->
             Logger.error("#{reason}")
